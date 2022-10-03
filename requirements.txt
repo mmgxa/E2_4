@@ -1,0 +1,29 @@
+# --------- common --------- #
+Pillow==8.4.0
+
+
+# --------- pytorch --------- #
+-f https://download.pytorch.org/whl/torch_stable.html 
+torch==1.10.0+cpu
+torchvision==0.11.0+cpu
+pytorch-lightning==1.7.1
+torchmetrics==0.9.3
+
+# --------- hydra --------- #
+hydra-core==1.2.0
+hydra-colorlog==1.2.0
+hydra-optuna-sweeper==1.2.0
+
+# --------- loggers --------- #
+# wandb
+# neptune-client
+# mlflow
+# comet-ml
+
+# --------- others --------- #
+pyrootutils==1.0.4     # standardizing the project root setup
+pre-commit==2.20.0      # hooks for applying linters on commit
+rich==12.5.1            # beautiful text formatting in terminal
+pytest==7.1.3          # tests
+sh==1.14.3            # for running bash commands in some tests (linux/macos only)
+timm==0.6.7

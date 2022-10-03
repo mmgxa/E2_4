@@ -1,0 +1,5 @@
+- experiment=timm.yaml
+- trainer.max_epochs=20
+- datamodule.num_workers=4
+- trainer.accelerator=gpu
+- trainer.devices=1

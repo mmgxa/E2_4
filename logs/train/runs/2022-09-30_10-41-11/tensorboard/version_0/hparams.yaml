@@ -1,0 +1,77 @@
+model:
+  _target_: src.models.cifar10_module.CIFAR10LitModule
+  optimizer:
+    _target_: torch.optim.Adam
+    _partial_: true
+    lr: 0.002
+    weight_decay: 0.0
+  net:
+    _target_: timm.create_model
+    model_name: resnet18
+    pretrained: true
+    num_classes: 10
+model/params/total: 11181642
+model/params/trainable: 11181642
+model/params/non_trainable: 0
+datamodule:
+  _target_: src.datamodules.cifar10_datamodule.CIFAR10DataModule
+  data_dir: /home/ubuntu/model1_aws/data/
+  batch_size: 64
+  train_val_test_split:
+  - 50000
+  - 5000
+  - 5000
+  num_workers: 4
+  pin_memory: true
+trainer:
+  _target_: pytorch_lightning.Trainer
+  default_root_dir: /home/ubuntu/model1_aws/logs/train/runs/2022-09-30_10-41-11
+  min_epochs: 10
+  max_epochs: 20
+  accelerator: gpu
+  devices: 1
+  deterministic: false
+  gradient_clip_val: 0.5
+callbacks:
+  model_checkpoint:
+    _target_: pytorch_lightning.callbacks.ModelCheckpoint
+    dirpath: /home/ubuntu/model1_aws/logs/train/runs/2022-09-30_10-41-11/checkpoints
+    filename: epoch_{epoch:03d}
+    monitor: val/acc
+    verbose: false
+    save_last: true
+    save_top_k: 1
+    mode: max
+    auto_insert_metric_name: false
+    save_weights_only: false
+    every_n_train_steps: null
+    train_time_interval: null
+    every_n_epochs: null
+    save_on_train_epoch_end: null
+  early_stopping:
+    _target_: pytorch_lightning.callbacks.EarlyStopping
+    monitor: val/acc
+    min_delta: 0.0
+    patience: 100
+    verbose: false
+    mode: max
+    strict: true
+    check_finite: true
+    stopping_threshold: null
+    divergence_threshold: null
+    check_on_train_epoch_end: null
+  model_summary:
+    _target_: pytorch_lightning.callbacks.RichModelSummary
+    max_depth: -1
+  rich_progress_bar:
+    _target_: pytorch_lightning.callbacks.RichProgressBar
+extras:
+  ignore_warnings: false
+  enforce_tags: true
+  print_config: true
+task_name: train
+tags:
+- cifar10
+- timm_model
+ckpt_path: null
+seed: 12345
